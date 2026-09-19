@@ -39,14 +39,27 @@ tests/test_main.py ...                                                   [100%]
 ## 4. Chiến lược và Benchmark cá nhân
 Tôi phụ trách thử nghiệm chiến lược: **`FixedSizeChunker(chunk_size=150, overlap=20)`**
 
-Kết quả:
+Để thấy rõ sự khác biệt của thuật toán nhúng (Embedding), tôi đã chạy Benchmark trên cả 2 phiên bản:
+
+### 4.1. Chạy với Mock Embedder (Baseline ngẫu nhiên)
 * **Câu 1 (Fact & Numbers):** 1/2 điểm (Top 2 chứa thông tin đúng).
 * **Câu 2 (Conditions - Có Filter):** 2/2 điểm (Top 1 là tài liệu sinh viên).
 * **Câu 3 (Finance):** 1/2 điểm (Top 2 chứa thông tin phạt).
 * **Câu 4 (Facility):** 0/2 điểm (Lấy sai hoàn toàn).
 * **Câu 5 (Channels):** 0/2 điểm (Lấy sai hoàn toàn).
 
-**👉 Tổng điểm cá nhân: 4/10 điểm.**
+**👉 Tổng điểm cá nhân (Mock): 4/10 điểm.**
+*Nhận xét Mock:* Thuật toán chia chữ cố định cắt văn bản rất máy móc. Với thuật toán nhúng ngẫu nhiên (Mock), hệ thống hoàn toàn thất bại ở các câu hỏi phức tạp vì phần từ khóa quan trọng bị tách rời, khiến mô hình lấy sai văn bản.
 
-**Nhận xét chiến lược cá nhân:**
-Thuật toán chia chữ cố định cắt văn bản rất máy móc. Đặc biệt ở câu 4 và 5, phần quan trọng chứa từ khóa bị tách lìa ra khỏi ngữ cảnh nên thuật toán không thể truy xuất đúng thông tin. Điều này càng chứng tỏ giá trị của các thuật toán phức tạp hơn như `RecursiveChunker` hay `HeadingChunker`.
+### 4.2. Chạy với Gemini Embedder (gemini-embedding-001)
+* **Câu 1 (Fact & Numbers):** 2/2 điểm (Top 1 và 2 đều lấy đúng `fpt-muon-sach-sinh-vien`).
+* **Câu 2 (Conditions - Có Filter):** 2/2 điểm (Top 1 là tài liệu sinh viên).
+* **Câu 3 (Finance):** 2/2 điểm (Top 1 và 2 lấy chuẩn `fpt-phi-thu-vien`).
+* **Câu 4 (Facility):** 2/2 điểm (Top 1 và 2 lấy chuẩn `fpt-phong-hoc-nhom`).
+* **Câu 5 (Channels):** 2/2 điểm (Top 1 và 2 lấy chuẩn `fpt-gia-han-tai-lieu`).
+
+**👉 Tổng điểm cá nhân (Gemini): 10/10 điểm.**
+
+**Nhận xét chung:**
+Sự chênh lệch từ 4/10 lên 10/10 đã chứng minh sức mạnh của mô hình Embedding thực thụ. Nhờ sử dụng mô hình của Gemini, chiến lược `FixedSizeChunker` của tôi đã đạt điểm tối đa. Dù thuật toán chia chữ máy móc làm đứt gãy một số câu, nhưng nhờ có `overlap` và khả năng bắt ngữ nghĩa (semantic) cực tốt của vector Gemini, hệ thống vẫn vượt qua được nhược điểm đó để lấy đúng văn bản.
+Điều này cho thấy thuật toán Chunking dù đơn giản, nhưng nếu kết hợp với một Embedder đủ xuất sắc thì vẫn có thể đem lại độ chính xác rất cao.

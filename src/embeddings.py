@@ -85,3 +85,26 @@ class GeminiEmbedder:
 
 
 _mock_embed = MockEmbedder()
+
+def get_embedding_fn():
+    from dotenv import load_dotenv
+    load_dotenv(override=False)
+    provider = os.getenv(EMBEDDING_PROVIDER_ENV, "mock").strip().lower()
+    
+    if provider == "local":
+        try:
+            return LocalEmbedder(model_name=os.getenv("LOCAL_EMBEDDING_MODEL", LOCAL_EMBEDDING_MODEL))
+        except Exception:
+            return _mock_embed
+    elif provider == "openai":
+        try:
+            return OpenAIEmbedder(model_name=os.getenv("OPENAI_EMBEDDING_MODEL", OPENAI_EMBEDDING_MODEL))
+        except Exception:
+            return _mock_embed
+    elif provider == "gemini":
+        try:
+            return GeminiEmbedder(model_name=os.getenv("GEMINI_EMBEDDING_MODEL", GEMINI_EMBEDDING_MODEL))
+        except Exception:
+            return _mock_embed
+    
+    return _mock_embed

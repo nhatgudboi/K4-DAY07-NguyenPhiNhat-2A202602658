@@ -2,13 +2,13 @@ import os
 from pathlib import Path
 import re
 
-from src.embeddings import _mock_embed
+from src.embeddings import get_embedding_fn
 from src.store import EmbeddingStore
 from src.chunking import FixedSizeChunker
 from src.models import Document
 
 # 1. Khởi tạo
-store = EmbeddingStore(collection_name="benchmark", embedding_fn=_mock_embed)
+store = EmbeddingStore(collection_name="benchmark", embedding_fn=get_embedding_fn())
 chunker = FixedSizeChunker(chunk_size=150, overlap=20)
 
 # 2. Đọc file
