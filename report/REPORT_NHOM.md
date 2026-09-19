@@ -1,146 +1,65 @@
-# Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
-
-**Nhóm:** [Tên nhóm]
-**Thành viên:** [Họ tên từng thành viên]
-**Ngày:** [Ngày nộp]
-
-> **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
-
-**Tổng điểm phần nhóm: 40** = Lựa chọn tài liệu (10) + Thiết kế chiến lược (15) + Chất lượng truy xuất (10) + Thuyết trình (5).
+# BÁO CÁO LAB 07 - NHÓM 18
+*Chủ đề: Dịch vụ & Nội quy Thư viện (University Library Services)*
 
 ---
 
-## 1. Lựa chọn tài liệu (Document Set Quality) — Nhóm (10 điểm)
+## PHẦN 1. ĐÁNH GIÁ CHIẾN LƯỢC PHÂN RÃ VĂN BẢN (CHUNKING STRATEGIES)
 
-### Chủ đề (Domain) & Lý Do Chọn
+Để tối ưu hóa Vector Store, nhóm đã tiến hành phân rã 5 tài liệu gốc bằng 4 chiến lược khác nhau. Dưới đây là bảng phân tích so sánh:
 
-**Chủ đề:** [ví dụ: Customer support FAQ, Luật Việt Nam, công thức nấu ăn, ...]
-
-**Tại sao nhóm chọn chủ đề này?**
-> *Viết 2-3 câu:*
-
-### Danh sách tài liệu (Data Inventory)
-
-| # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
-|---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
-
-**Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
-
-### Cấu trúc Metadata (Metadata Schema)
-
-| Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
-|----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+| Thành viên phụ trách | Tên Chiến lược | Số lượng Chunk sinh ra | Điểm Benchmark | Đánh giá & Nhận xét sơ bộ |
+|---|---|:---:|:---:|---|
+| **Tuấn (Data)** | `SentenceChunker` | 48 | **6/10** | Cắt theo từng câu nên số lượng chunk sinh ra nhiều nhất. Tuy nhiên, ngữ cảnh bị vỡ vụn, thường xuyên làm mất từ khóa nối câu khiến điểm truy xuất thấp nhất. |
+| **Nhật (Report)** | `FixedSizeChunker` | 14 | **4/10** | Cắt cứng theo số lượng ký tự (150 char). Ưu điểm là rất ít chunk, nhưng nhược điểm là đoạn văn bị chẻ đôi giữa chừng một cách máy móc. Câu 4 và 5 bị cắt đứt đoạn chứa Keyword quan trọng nên lấy sai hoàn toàn. |
+| **Khánh (Benchmark)** | `RecursiveChunker` | 31 | **8/10** | Cắt đệ quy rất linh hoạt, dung hòa tốt giữa số lượng chunk và ngữ cảnh. Lấy được điểm tuyệt đối ở 4/5 câu hỏi. |
+| **Vĩ (Strategy)** | `HeadingChunker` | 32 | **9/10** | **Chiến lược xuất sắc nhất.** Tự động cắt theo các thẻ `#` và `##` của Markdown, giúp giữ trọn vẹn 100% ngữ cảnh của một "Điều luật" hay một "Quy định" vào chung một chunk. |
 
 ---
 
-## 2. Thiết kế chiến lược (Strategy Design) — Nhóm (15 điểm)
+## PHẦN 2. KẾT QUẢ BENCHMARK (5 CÂU HỎI TRUY XUẤT)
 
-> Mỗi thành viên thử **một chiến lược khác nhau** trên cùng bộ tài liệu; nhóm tổng hợp và so sánh ở đây.
+Nhóm sử dụng bộ 5 câu hỏi chuẩn để test hệ thống. Điểm số dưới đây lấy từ chiến lược tốt nhất (`HeadingChunker` của Vĩ):
 
-### Phân tích đường cơ sở (Baseline Analysis)
+* **Câu 1 (Fact & Numbers):** *Sinh viên được mượn tối đa bao nhiêu tài liệu...* 
+  * Kết quả: Đạt 1/2 điểm. (Hệ thống lấy đúng ý nhưng top-1 bị nhầm lẫn nhẹ sang quy định của giảng viên do không có filter).
+* **Câu 2 (Conditions):** *Hạn ngạch được phép mượn tài liệu về nhà tối đa là bao nhiêu cuốn?*
+  * Kết quả: Đạt 2/2 điểm tuyệt đối nhờ sử dụng Metadata Filter.
+* **Câu 3 (Finance):** *Mức phí phạt trả sách quá hạn mỗi ngày là bao nhiêu?*
+  * Kết quả: Đạt 2/2 điểm. Bốc chính xác `fpt-phi-thu-vien`.
+* **Câu 4 (Facility):** *Thời gian sử dụng phòng học nhóm tối đa là bao lâu mỗi ca?*
+  * Kết quả: Đạt 2/2 điểm. Trích xuất đúng con số `2 giờ` và `15 phút`.
+* **Câu 5 (Channels):** *Mỗi cuốn sách được phép gia hạn tối đa mấy lượt?*
+  * Kết quả: Đạt 2/2 điểm.
 
-Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
-
-| Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-|-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
-
-### Chiến lược của từng thành viên
-
-> Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
-
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
-- **Code snippet (nếu custom):**
-```python
-# Dán mã nguồn (implementation) vào đây
-```
-
-**Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
-
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
-
-### So Sánh Giữa Các Thành Viên
-
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-|-----------|----------|----------------------|-----------|----------|
-| | | | | |
-| | | | | |
-| | | | | |
-
-**Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+👉 **Tổng điểm hệ thống: 9/10 điểm.**
 
 ---
 
-## 3. Câu hỏi đánh giá & Chất lượng truy xuất (Retrieval Quality) — Nhóm (10 điểm)
+## PHẦN 3. BẰNG CHỨNG THỰC NGHIỆM A/B: METADATA FILTERING
+*(Chứng minh sự cần thiết của lọc siêu dữ liệu trong kiến trúc Multi-tenant)*
 
-### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
+**Câu hỏi Test:** *"Hạn ngạch được phép mượn tài liệu về nhà tối đa là bao nhiêu cuốn cùng một lúc?"*
 
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
+* **TRƯỜNG HỢP 1: KHÔNG SỬ DỤNG FILTER**
+  * Vector Store lấy về cả tài liệu `fpt-muon-sach-sinh-vien` (10 cuốn) và `fpt-muon-sach-giang-vien` (20 cuốn).
+  * Tài liệu của giảng viên nằm chễm chệ ở Rank 2 với score khá cao (0.275). Nếu đưa kết quả này cho LLM, chắc chắn LLM sẽ bị ảo giác (hallucination) và trả lời sai thành 20 cuốn.
+* **TRƯỜNG HỢP 2: CÓ SỬ DỤNG FILTER `{"audience": "student"}`**
+  * Vector Store loại bỏ hoàn toàn tài liệu của giảng viên từ trước khi tính toán cosine similarity.
+  * Hệ thống cô lập 100% dữ liệu, lấy về đúng tài liệu sinh viên (Score: 0.395).
 
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
-|---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-
-### Tổng hợp chất lượng truy xuất của nhóm
-
-> Cách chấm (theo `docs/SCORING.md`): **2 điểm/câu** — top-3 chứa chunk liên quan + agent trả lời đúng (2), có liên quan nhưng thiếu/không ở top-1 (1), không có trong top-3 (0).
-
-| # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
-|---|---------|-------------------------------|-------------------------------|---------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-
-**Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> *Viết 2-3 câu:*
+**💡 Kết luận:** Bắt buộc phải triển khai tính năng Metadata Filtering để đảm bảo an toàn thông tin và tính chính xác, không cho phép sinh viên đọc chéo quy định của giảng viên.
 
 ---
 
-## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
+## PHẦN 4. PHÂN TÍCH LỖI (FAILURE CASE ANALYSIS)
 
-**Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> *Liệt kê 2-3 ý:*
+Nhóm đã phát hiện một rủi ro kiến trúc vô cùng lớn khi sử dụng `SentenceChunker` (Thuật toán của Tuấn).
 
-**Bài học rút ra khi so sánh trong nhóm:**
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
+**1. Hiện tượng lỗi:**
+Khi hỏi Câu 3: *"Mức phí phạt trả sách quá hạn mỗi ngày là bao nhiêu?"*, chiến lược `SentenceChunker` đạt 0/2 điểm. Top-1 truy xuất trả về một câu hoàn toàn không liên quan: *"Tài khoản thư viện của bạn đọc không trong tình trạng bị khóa hoặc vi phạm nội quy."*
 
-**Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> *Viết 2-3 câu:*
+**2. Nguyên nhân (Root Cause):**
+Do thuật toán `SentenceChunker` băm văn bản quá nhuyễn (cắt theo từng dấu chấm câu). Câu văn chứa con số "5.000 VNĐ" bị tách rời hoàn toàn khỏi câu văn chứa chữ "Mức phí phạt quá hạn". Khi Vector Store tính khoảng cách ngữ nghĩa, từng câu đơn lẻ không đủ từ khóa ngữ cảnh, dẫn đến Vector bị lạc hướng và nhặt sai tài liệu.
 
----
-
-## Tự Đánh Giá (Phần Nhóm)
-
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Lựa chọn tài liệu (Document Set Quality) | / 10 |
-| Thiết kế chiến lược (Strategy Design) | / 15 |
-| Chất lượng truy xuất (Retrieval Quality) | / 10 |
-| Thuyết trình (Demo) | / 5 |
-| **Tổng phần nhóm** | **/ 40** |
+**3. Giải pháp khắc phục:**
+Tuyệt đối không dùng SentenceChunker cho các tài liệu dạng Pháp luật / Nội quy vì nó phá vỡ tính liên kết của một "Điều khoản". Phải sử dụng `HeadingChunker` (Giữ nguyên văn bản từ thẻ Header này đến thẻ Header tiếp theo) để gom trọn vẹn ngữ cảnh vào một Vector duy nhất.

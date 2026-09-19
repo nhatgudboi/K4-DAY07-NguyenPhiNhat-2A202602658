@@ -1,0 +1,91 @@
+=== Câu 1: Fact & Numbers ===
+Hỏi: Sinh viên được mượn tối đa bao nhiêu tài liệu về nhà và thời hạn mượn sách tham khảo tiếng Việt, ngoại văn là bao lâu?
+Filter: None
+ Top 1 (Score: 0.2225) | Nguồn: fpt-phong-hoc-nhom
+ Content: gian sử dụng tối đa 2 giờ / ca (1 ca / nhóm / ngày).
+Sau bao nhiêu phút không đến nhận phòng thì ca đặt sẽ bị hủy? Sau 15 phút kể từ giờ bắt đầu nếu n...
+ Top 2 (Score: 0.1917) | Nguồn: fpt-muon-sach-sinh-vien
+ Content: # Quy định mượn sách dành cho Sinh viên
+
+Mục 1. Hạn mức
+Sinh viên được mượn tối đa 10 tài liệu cùng lúc về nhà. Hạn ngạch được phép mượn tài liệu về n...
+ Top 3 (Score: 0.0501) | Nguồn: fpt-phong-hoc-nhom
+ Content: từ giờ bắt đầu nếu nhóm không đến nhận phòng hoặc không đủ người tối thiểu thì ca đặt sẽ tự động bị hủy....
+
+=== Câu 2: A/B Testing đối tượng (CÓ FILTER) ===
+Hỏi: Hạn ngạch được phép mượn tài liệu về nhà tối đa là bao nhiêu cuốn cùng một lúc?
+Filter: {'audience': 'student'}
+ Top 1 (Score: 0.2455) | Nguồn: fpt-muon-sach-sinh-vien
+ Content:  sách ngoại văn và song ngữ mượn 14 ngày....
+ Top 2 (Score: 0.1156) | Nguồn: fpt-muon-sach-sinh-vien
+ Content: p mượn tài liệu về nhà tối đa là 10 cuốn cùng một lúc.
+
+Mục 3. Thời hạn
+Thời hạn mượn sách tham khảo tiếng Việt là 7 ngày. Đối với sách ngoại văn và s...
+ Top 3 (Score: 0.0189) | Nguồn: fpt-muon-sach-sinh-vien
+ Content: # Quy định mượn sách dành cho Sinh viên
+
+Mục 1. Hạn mức
+Sinh viên được mượn tối đa 10 tài liệu cùng lúc về nhà. Hạn ngạch được phép mượn tài liệu về n...
+
+=== Câu 2: A/B Testing đối tượng (KHÔNG FILTER) ===
+Hỏi: Hạn ngạch được phép mượn tài liệu về nhà tối đa là bao nhiêu cuốn cùng một lúc?
+Filter: None
+ Top 1 (Score: 0.2455) | Nguồn: fpt-muon-sach-sinh-vien
+ Content:  sách ngoại văn và song ngữ mượn 14 ngày....
+ Top 2 (Score: 0.1363) | Nguồn: fpt-muon-sach-giang-vien
+ Content: t lúc. Cán bộ giảng viên được mượn tối đa 20 tài liệu cùng lúc về nhà để phục vụ nghiên cứu và giảng dạy....
+ Top 3 (Score: 0.1156) | Nguồn: fpt-muon-sach-sinh-vien
+ Content: p mượn tài liệu về nhà tối đa là 10 cuốn cùng một lúc.
+
+Mục 3. Thời hạn
+Thời hạn mượn sách tham khảo tiếng Việt là 7 ngày. Đối với sách ngoại văn và s...
+
+=== Câu 3: Finance & Procedure ===
+Hỏi: Mức phí phạt trả sách quá hạn mỗi ngày là bao nhiêu và có những phương thức thanh toán trực tuyến nào?
+Filter: None
+ Top 1 (Score: 0.2043) | Nguồn: fpt-muon-sach-giang-vien
+ Content: # Quy định mượn sách dành cho Cán bộ Giảng viên
+
+Mục 1. Hạn mức
+Hạn ngạch được phép mượn tài liệu về nhà tối đa là 20 cuốn cùng một lúc. Cán bộ giảng ...
+ Top 2 (Score: 0.1763) | Nguồn: fpt-phi-thu-vien
+ Content:  là 5.000 VNĐ / tài liệu / ngày.
+
+Mục 2. Thanh toán
+Có những phương thức thanh toán trực tuyến nào? Thư viện hỗ trợ 2 phương thức thanh toán trực tuyế...
+ Top 3 (Score: 0.1655) | Nguồn: fpt-muon-sach-sinh-vien
+ Content:  sách ngoại văn và song ngữ mượn 14 ngày....
+
+=== Câu 4: Facility & Condition ===
+Hỏi: Thời gian sử dụng phòng học nhóm tối đa là bao lâu mỗi ca và sau bao nhiêu phút không đến nhận phòng thì ca đặt sẽ bị hủy?
+Filter: None
+ Top 1 (Score: 0.3481) | Nguồn: fpt-gia-han-tai-lieu
+ Content: # Dịch vụ & Quy trình liên hệ
+
+Mục 1. Gia hạn sách
+Mỗi cuốn sách được phép gia hạn tối đa mấy lượt? Mỗi cuốn sách được phép gia hạn tối đa 4 lượt (nếu...
+ Top 2 (Score: 0.2248) | Nguồn: fpt-muon-sach-giang-vien
+ Content: t lúc. Cán bộ giảng viên được mượn tối đa 20 tài liệu cùng lúc về nhà để phục vụ nghiên cứu và giảng dạy....
+ Top 3 (Score: 0.0936) | Nguồn: fpt-gia-han-tai-lieu
+ Content: n tối đa 4 lượt (nếu chưa có người đặt trước).
+
+Mục 2. Kênh liên hệ
+Bạn đọc có thể thực hiện gia hạn qua những kênh nào? Có thể gia hạn qua 4 kênh: cổ...
+
+=== Câu 5: Service & Channels ===
+Hỏi: Mỗi cuốn sách được phép gia hạn tối đa mấy lượt và bạn đọc có thể thực hiện gia hạn qua những kênh nào?
+Filter: None
+ Top 1 (Score: 0.1625) | Nguồn: fpt-phong-hoc-nhom
+ Content: từ giờ bắt đầu nếu nhóm không đến nhận phòng hoặc không đủ người tối thiểu thì ca đặt sẽ tự động bị hủy....
+ Top 2 (Score: 0.0846) | Nguồn: fpt-muon-sach-sinh-vien
+ Content: p mượn tài liệu về nhà tối đa là 10 cuốn cùng một lúc.
+
+Mục 3. Thời hạn
+Thời hạn mượn sách tham khảo tiếng Việt là 7 ngày. Đối với sách ngoại văn và s...
+ Top 3 (Score: 0.0418) | Nguồn: fpt-muon-sach-giang-vien
+ Content: # Quy định mượn sách dành cho Cán bộ Giảng viên
+
+Mục 1. Hạn mức
+Hạn ngạch được phép mượn tài liệu về nhà tối đa là 20 cuốn cùng một lúc. Cán bộ giảng ...
+

@@ -1,0 +1,6 @@
+doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
+fpt-muon-sach-sinh-vien,data/thu_vien/fpt-muon-sach-sinh-vien.md,Quy định mượn sách cho Sinh viên,https://library.fpt.edu.vn/sinh-vien,2026-09-19,1.0,public-source
+fpt-muon-sach-giang-vien,data/thu_vien/fpt-muon-sach-giang-vien.md,Quy định mượn sách cho Giảng viên,https://library.fpt.edu.vn/giang-vien,2026-09-19,1.0,public-source
+fpt-phi-thu-vien,data/thu_vien/fpt-phi-thu-vien.md,Quy định biểu phí và phạt,https://library.fpt.edu.vn/phi,2026-09-19,1.0,public-source
+fpt-phong-hoc-nhom,data/thu_vien/fpt-phong-hoc-nhom.md,Quy định mượn phòng học nhóm,https://library.fpt.edu.vn/phong-hoc-nhom,2026-09-19,1.0,public-source
+fpt-gia-han-tai-lieu,data/thu_vien/fpt-gia-han-tai-lieu.md,Quy định gia hạn tài liệu,https://library.fpt.edu.vn/gia-han,2026-09-19,1.0,public-source
